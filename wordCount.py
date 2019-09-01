@@ -1,22 +1,18 @@
-import os
-import sys
-import re
-import string
+import os, sys, re, string
 
-firstArg = sys.argv[1]
-secondArg = sys.argv[2]
+inputFile = sys.argv[1]
+outputFile = sys.argv[2]
 
-frequency = {}
-document_text = open(firstArg, 'r')
-text_string = document_text.read().lower()
-match_pattern = re.findall(r'\b[a-z]{1,15}\b', text_string)
+stringText = open(inputFile, 'r').read().lower()
+expressionList = re.findall(r'\b[a-z]{1,15}\b', stringText)
 
-for word in match_pattern:
-    count = frequency.get(word,0)
-    frequency[word] = count + 1
+occurrences = {}
+for word in expressionList:
+    count = occurrences.get(word, 0)
+    occurrences[word] = count + 1
 
-frequency_list = sorted(frequency.keys())
+sortedList = sorted(occurrences.keys())
 
-with open(secondArg, 'w') as kevin:
-    for words in frequency_list:
-        kevin.writelines("%s %s\n" % (words, str(frequency[words])))
+with open(outputFile, 'w') as output:
+    for words in sortedList:
+        output.writelines("%s %d\n" % (words, occurrences[words]))
